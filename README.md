@@ -1,1 +1,1 @@
-# social-networkss
+# social-networks
