@@ -23,11 +23,12 @@ def remove_stop_words(tweet):
 def remove_link(tweet):
 	return re.sub(r"http\S+", "", tweet)
 
-def remove_metions(tweet):
+def remove_metions_and_tags(tweet):
 	new_tweet = ''
 	for word in tweet.split(" "):
 		if '@' not in word:
-			new_tweet += " " + word
+			if '#' not in word:
+				new_tweet += " " + word
 	return new_tweet
 
 def remove_special_caracteres(tweet):
@@ -36,7 +37,7 @@ def remove_special_caracteres(tweet):
 
 
 def pre_process_tweet(tweet):
-	return remove_quotation_marks(remove_link(remove_stop_words(remove_metions(tweet))))
+	return remove_quotation_marks(remove_link(remove_stop_words(remove_metions_and_tags(tweet))))
 
 def conexao():
     return sqlite3.connect(keys.DB_PATH)

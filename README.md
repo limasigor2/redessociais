@@ -19,5 +19,5 @@ ACCESS_TOKEN_SECRET="SUA ACCESS_TOKEN_SECRET"
 DB_PATH="O caminho pro arquivo .db"
 
 </code>
-3. No arquivo coleta.py, na linha onde se encotra <code>setTerms = ['#FLAxPAL']</code> apague o termo ['#FLAxPAL'] e adicione os termos que quiser.
+3. No arquivo coleta.py, na linha onde se encotra <code>setTerms = keys.TERMS</code> apague o <code>keys.TERMS</code> e adicione uma lista de termos que deseja filtrar.
 4. Execute o seguinte comando <code>python coleta.py</code>

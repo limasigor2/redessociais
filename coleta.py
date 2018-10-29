@@ -55,6 +55,6 @@ if __name__ == '__main__':
     conn = util.conexao()
 
     stream = Stream(auth, l)
-    setTerms = ['#FLAxPAL']
+    setTerms = keys.TERMS
     stream.filter(track=setTerms)
     conn.close()
