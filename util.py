@@ -10,6 +10,9 @@ def stopwords_files_to_list():
 			lista.append((file.read().splitlines()))
 	return lista
 
+def remove_quotation_marks(tweet):
+	return tweet.replace("\"", "'")
+
 def remove_stop_words(tweet):
     new_words = ''
     for word in tweet.split(' '):
@@ -27,8 +30,13 @@ def remove_metions(tweet):
 			new_tweet += " " + word
 	return new_tweet
 
+def remove_special_caracteres(tweet):
+	regex = "(?i)[^a-z@#áéíóúàèìòùâêîôûãõç]"
+	return re.sub(regex, " ", tweet)
+
+
 def pre_process_tweet(tweet):
-	return remove_link(remove_stop_words(remove_metions(tweet)))
+	return remove_quotation_marks(remove_link(remove_stop_words(remove_metions(tweet))))
 
 def conexao():
     return sqlite3.connect(keys.DB_PATH)
@@ -36,6 +44,7 @@ def conexao():
 def persist_at(conn, id, text, user, retweet_status, original_user):
 	if original_user == "":
 		original_user = "' '"
-	conn.cursor().execute("INSERT INTO tweets VALUES ('{}', '{}', {}, {}, {})".format(id, text, user, retweet_status, original_user))
+	print("INSERT INTO tweets VALUES ('{}', '{}', {}, {}, {})".format(id, text, user, retweet_status, original_user))
+	conn.cursor().execute("INSERT INTO tweets VALUES (\"{}\", \"{}\", {}, {}, {})".format(id, text, user, retweet_status, original_user))
 
 	conn.commit()
