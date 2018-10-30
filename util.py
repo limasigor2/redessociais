@@ -23,12 +23,11 @@ def remove_stop_words(tweet):
 def remove_link(tweet):
 	return re.sub(r"http\S+", "", tweet)
 
-def remove_metions_and_tags(tweet):
+def remove_metions(tweet):
 	new_tweet = ''
 	for word in tweet.split(" "):
 		if '@' not in word:
-			if '#' not in word:
-				new_tweet += " " + word
+			new_tweet += " " + word
 	return new_tweet
 
 def remove_special_caracteres(tweet):
@@ -37,15 +36,15 @@ def remove_special_caracteres(tweet):
 
 
 def pre_process_tweet(tweet):
-	return remove_quotation_marks(remove_link(remove_stop_words(remove_metions_and_tags(tweet))))
+	return remove_quotation_marks(remove_link(remove_stop_words(remove_metions(tweet))))
 
 def conexao():
     return sqlite3.connect(keys.DB_PATH)
 
-def persist_at(conn, id, text, user, retweet_status, original_user):
+def persist_at(conn, id, text, user, retweet_status, original_user, created_at):
 	if original_user == "":
 		original_user = "' '"
-	print("INSERT INTO tweets VALUES ('{}', '{}', {}, {}, {})".format(id, text, user, retweet_status, original_user))
-	conn.cursor().execute("INSERT INTO tweets VALUES (\"{}\", \"{}\", {}, {}, {})".format(id, text, user, retweet_status, original_user))
+	print("INSERT INTO tweets VALUES (\"{}\", \"{}\", {}, {}, {}, {})".format(id, text, user, retweet_status, original_user, created_at))
+	conn.cursor().execute("INSERT INTO tweets VALUES (\"{}\", \"{}\", {}, {}, {}, '{}')".format(id, text, user, retweet_status, original_user, created_at))
 
 	conn.commit()

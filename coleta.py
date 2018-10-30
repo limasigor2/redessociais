@@ -29,6 +29,7 @@ class StdOutListener(StreamListener):
         retweeted_status = False
         original_user = ""
         text = ""
+        created_at = ""
         if 'id' in json_data:
             id = str(json_data['id'])
         if 'user' in json_data:
@@ -38,7 +39,10 @@ class StdOutListener(StreamListener):
             original_user = ascii(json_data['retweeted_status']['user']['name'])
         if 'text' in json_data:
             text = util.pre_process_tweet(json_data['text'])
-        util.persist_at(conn, id, text, user, retweeted_status , original_user)
+        if 'created_at' in json_data:
+            created_at = json_data['created_at']
+            print(created_at)
+        util.persist_at(conn, id, text, user, retweeted_status , original_user,created_at)
        
         return True
 
